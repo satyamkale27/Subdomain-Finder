@@ -1,15 +1,15 @@
 const puppeteer = require("puppeteer");
 
-// To Do: implement pagination //
-// To Do: implement Captcha bypass of google //
-
-async function getDomain(req, res) {
+async function PostDomain(req, res) {
   let browser;
   try {
     browser = await puppeteer.launch();
     const page = await browser.newPage();
+    const domain = req.body.domain;
 
-    await page.goto("https://www.google.com/search?q=site:instagram.com", {
+    if (!domain) throw new Error("No query provided");
+
+    await page.goto(`https://www.google.com/search?q=site:${domain}.com`, {
       waitUntil: "networkidle2",
     });
 
@@ -34,9 +34,8 @@ async function getDomain(req, res) {
       });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({
-      error: "An error occurred while processing your request",
+      error: error.message,
     });
   } finally {
     if (browser) await browser.close();
@@ -80,5 +79,5 @@ async function isNextPage(page, allResults) {
 }
 
 module.exports = {
-  getDomain,
+  PostDomain,
 };
