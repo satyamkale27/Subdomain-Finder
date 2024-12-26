@@ -9,7 +9,7 @@ async function getDomain(req, res) {
     browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    await page.goto("https://www.google.com/search?q=site:example.com", {
+    await page.goto("https://www.google.com/search?q=site:instagram.com", {
       waitUntil: "networkidle2",
     });
 
@@ -20,7 +20,7 @@ async function getDomain(req, res) {
     allResults = allResults.concat(searchResults);
 
     // Check for pagination and collect results from subsequent pages
-    while (await isNextPage(page)) {
+    while (await isNextPage(page, allResults)) {
       const nextPageResults = await extractResults(page);
       allResults = allResults.concat(nextPageResults);
     }
@@ -63,8 +63,12 @@ async function extractResults(page) {
 }
 
 // Helper function to check and navigate to the next page
-async function isNextPage(page) {
+async function isNextPage(page, allResults) {
   const nextPage = await page.$("#pnnext");
+
+  if (allResults.length > 20) {
+    return false;
+  }
 
   if (nextPage) {
     await page.click("#pnnext");
