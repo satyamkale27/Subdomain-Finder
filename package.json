@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "morgan": "^1.10.0",
+    "puppeteer": "^23.6.0",
+    "puppeteer-extra-plugin-recaptcha": "^3.6.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "name": "passive-domain",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "watch": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
